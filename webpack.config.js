@@ -1,6 +1,7 @@
 var path = require('path');
-var SRC_DIR = path.join(__dirname, '/public/src');
+var SRC_DIR = path.join(__dirname, '/client');
 var DIST_DIR = path.join(__dirname, '/public');
+// DONT USE BABEL-LOADER 8, ONLY 7 || npm install -D babel-loader@7 babel-core babel-preset-env webpack
 
 module.exports = {
   mode: 'none',
@@ -19,6 +20,10 @@ module.exports = {
         query: {
           presets: ['react', 'es2015']
         }
+      },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
       }
     ]
   }
