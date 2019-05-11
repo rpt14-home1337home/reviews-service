@@ -66,7 +66,7 @@ hr {
   padding: 0px !important;
 }
 
-.left {
+.right {
   padding-right: 5%;
   padding-bottom: 24px;
   padding-top: 24px;
@@ -74,7 +74,7 @@ hr {
   width: 45%;
 }
 
-.right {
+.left {
   padding-left: 5%;
   padding-bottom: 24px;
   padding-top: 24px;

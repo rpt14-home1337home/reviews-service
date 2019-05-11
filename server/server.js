@@ -20,3 +20,13 @@ app.use(routes);
 app.listen(process.env.port || 3000, () => {
   console.log('listening for requests on port 3000');
 });
+
+//LOAD DATA LOCAL INFILE 'MOCK_DATA.csv' INTO TABLE bnb.reviews;
+
+// LOAD DATA LOCAL INFILE 'MOCK_DATA.csv'
+// INTO TABLE reviews
+// FIELDS TERMINATED BY ','
+// ENCLOSED BY '"'
+// LINES TERMINATED BY '\n'
+// (id,name,avatar,numDaysAgo,content);
+

@@ -86,11 +86,11 @@ class Review extends React.Component {
     }
 
     outputText = this.props.content;
-
+    const count = 1; // keep count
     return (
-    <div className={this.assignClass(this.props.id)} key={this.props.id}>
+    <div className={this.assignClass(count+1)} key={this.props.id}>
       <div className='header'>
-        <img className='avatar' src={`../imgs/${this.props.avatar}`}></img>
+        <img className='avatar' src={this.props.avatar}></img>
         <span className='reviewHeaderContent'>
           <p className='userName'>{this.props.name}</p>
           <p className='reviewAge'>{`${this.props.reviewAge} days ago`}</p>

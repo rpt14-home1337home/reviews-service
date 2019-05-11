@@ -9,8 +9,7 @@ class Reviews extends React.Component {
     super(props);
     this.state = {
       allReviews: [],
-      isToggled: false,
-      showingAll: false
+      isToggled: false
     }
   }
 
@@ -33,19 +32,26 @@ class Reviews extends React.Component {
     this.getReviews( (reviews) => {
       console.log('component Mounted: ' + reviews);
       this.setState({
-        allReviews: reviews
+        allReviews: reviews.sort(function(a,b) {
+          if (a.numDaysAgo > b.numDaysAgo) {
+            return 1
+          } else {
+            return -1
+          }
+        })
       })
     })
   }
 
   render() {
+    let sixReviews = this.state.allReviews.slice(0,6);
     return (
       <div>
         <hr></hr>
         <h1>Reviews</h1>
         <div className='allReviews'>
           {
-            this.state.allReviews.map((review) => (
+            sixReviews.map((review) => (
               <Review key={review.id}
                       id={review.id}
                       name={review.name}
