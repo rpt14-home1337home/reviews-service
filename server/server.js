@@ -30,3 +30,8 @@ app.listen(process.env.port || 3000, () => {
 // LINES TERMINATED BY '\n'
 // (id,name,avatar,numDaysAgo,content);
 
+// allows you to keep track of days by using an auto-incrementer on event;
+// SET GLOBAL event_scheduler = ON;
+
+//edit event
+// alter event updateReviewAge on schedule every 2 minute;

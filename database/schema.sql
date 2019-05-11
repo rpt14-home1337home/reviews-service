@@ -9,3 +9,9 @@ CREATE TABLE reviews (
   numDaysAgo INT NOT NULL,
   content VARCHAR(1500)
 )
+
+CREATE
+ALTER EVENT updateReviewAge
+    ON SCHEDULE AT '2019-05-11 13:02:00' + INTERVAL 1 HOUR
+    DO
+      UPDATE bnb.reviews SET numDaysAgo = numDaysAgo + 1;
