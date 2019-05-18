@@ -29,9 +29,10 @@ class AllReviewsLightBox extends React.Component {
 
   scrollHandler(e) {
     let element = e.target
-    // console.log(element.scrollHeight + ' - ' + element.scrollTop + ' === ' + (element.scrollHeight - element.scrollTop) + ' || NEEDS TO BE ' + element.clientHeight)
+    console.log(element.scrollHeight + ' - ' + element.scrollTop + ' === ' + (element.scrollHeight - element.scrollTop) + ' || NEEDS TO BE ' + element.clientHeight)
     if (element.scrollHeight - element.scrollTop === element.clientHeight) {
       if (this.state.filterApplied) {
+
         setTimeout( () => (
           this.setState({
             reviews: this.state.reviews.slice(0, (this.state.numReviewsShowing++) * 7)
@@ -101,7 +102,7 @@ class AllReviewsLightBox extends React.Component {
 
   render() {
     if (this.state.isToggled) {
-      const reviews = this.state.reviews.slice(0, (this.state.numReviewsShowing) * 7)
+      const reviews = this.state.reviews.slice(0, (this.state.numReviewsShowing++) * 7)
       return (
         this.renderSevenMessages(reviews)
       )
