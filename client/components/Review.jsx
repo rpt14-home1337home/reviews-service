@@ -42,14 +42,28 @@ class Review extends React.Component {
 
   // handles the 'read more' button for all longer reviews
   reviewExpander() {
-    console.log('expand called>?')
     this.setState({
       isToggled: !this.state.isToggled
     })
   }
 
-  componentDidMount() {
-    console.log('com[ponent did mount ' + this.props.seeAllReviewsMode)
+  consolidateDaysPast(value) {
+    if (value > 29 && value < 60) {
+      return Math.floor(value/30) + ' month ago'
+    }
+    if (value > 59 && value < 365) {
+      return Math.floor(value/30) + ' months ago'
+    }
+    if (value > 365) {
+      return Math.floor(value/365) + ' year ago'
+    }
+    if (value > 730) {
+      return Math.floor(value/365) + ' years ago'
+    }
+    return value + ' days ago'
+  }
+
+  componentWillMount() {
     this.setState({
       seeAllReviewsMode: this.props.seeAllReviewsMode
     })
@@ -60,6 +74,7 @@ class Review extends React.Component {
     let outputText;
     this.checkReviewTooLong(this.props.content) ? outputText = this.trimReview(this.props.content, 250) : outputText = this.props.content;
 
+    //Check length of review and determine which format to render
     if (this.props.content.length > 250) {
       if(this.state.isToggled === true) {
         reviewText =
@@ -86,14 +101,17 @@ class Review extends React.Component {
     }
 
     outputText = this.props.content;
-    const count = 1; // keep count
+    const alternateClassAssignment = 1; // keep count
+    // GET AGE OF REVIEW
+    const reviewAge = this.consolidateDaysPast(this.props.reviewAge);
+
     return (
-    <div className={this.assignClass(count+1)} key={this.props.id}>
+    <div className={this.assignClass(alternateClassAssignment+1)} key={this.props.id}>
       <div className='header'>
         <img className='avatar' src={this.props.avatar}></img>
         <span className='reviewHeaderContent'>
           <p className='userName'>{this.props.name}</p>
-          <p className='reviewAge'>{`${this.props.reviewAge} days ago`}</p>
+          <p className='reviewAge'>{reviewAge}</p>
         </span>
       </div>
       {reviewText}

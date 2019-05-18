@@ -3,6 +3,7 @@ const ReactDOM = require('react-dom');
 const $ = require('jquery');
 const Review = require('./Review.jsx');
 const AllReviewsLightBox = require('./allReviews.jsx');
+const Search = require('./Search.jsx');
 
 class Reviews extends React.Component {
   constructor(props) {
@@ -27,10 +28,8 @@ class Reviews extends React.Component {
     })
   }
 
-
   componentDidMount() {
     this.getReviews( (reviews) => {
-      console.log('component Mounted: ' + reviews);
       this.setState({
         allReviews: reviews.sort(function(a,b) {
           if (a.numDaysAgo > b.numDaysAgo) {

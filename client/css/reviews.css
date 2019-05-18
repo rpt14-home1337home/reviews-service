@@ -107,7 +107,7 @@ hr {
   margin: 20px 0px 20px 0px;
 }
 
-.allReviewsLightBox {
+#allReviewsLightBox {
   background-color: rgb(255, 255, 255) !important;
   max-width: 568px !important;
   width: 100% !important;
@@ -136,4 +136,41 @@ hr {
   border-radius: 50% !important;
   overflow: hidden !important;
 
+}
+
+.reviewSearch {
+  display: flex;
+  padding: 20px;
+  position: relative;
+  top: -75px;
+  float: right;
+}
+
+.reviewSearch > .reviewFilter {
+  text-align: left !important;
+  line-height: normal !important;
+  width: 100% !important;
+  background: rgb(255, 255, 255) !important;
+  border-radius: 2px !important;
+  padding: 8px !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-color: rgb(235, 235, 235) !important;
+  border-image: initial !important;
+  width: 175px;
+}
+
+.reviewFilterSumbit {
+  display: block;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  padding: 4px 0px 4px 12px;
+}
+
+.loadingGif {
+  display: block;
+  margin: auto;
+  width: 100px;
+  text-align: center;
 }
