@@ -29,6 +29,7 @@ config.js
 /database/seed.sql
 .env
 *.tar
+package-lock.json
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
