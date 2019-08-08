@@ -33,5 +33,42 @@ router.get('/reviews', (req, res, next) => {
   })
 })
 
+// Post a new review
+
+router.post('/reviews/single', (req, res, next) => {
+  let sql = `INSERT INTO reviews (name, avatar, numDaysAgo, content)
+    VALUES (${req.data.name}, ${req.data.avatar}, ${req.data.numDaysAgo}, ${content})`;
+
+  connection.query(sql, (err, data) => {
+    if (err) {
+      throw new Error(err);
+    } else {
+      console.log('Single insertion successful');
+    }
+  })
+});
+
+router.post('/reviews/batch', (req, res, next) => {
+  let sql = `INSERT INTO reviews (name, avatar, numDaysAgo, content)
+    VALUES `;
+
+  if(!Array.isArray(req.data)) {
+    throw new Error('Data is not an array');
+  } else {
+    req.data.forEach((review, index) => {
+      sql += index > 0 ? ',' : '';
+      sql += `(${review.name}, ${review.avatar}, ${review.numDaysAgo}, ${content})`;
+    });
+  }
+
+  connection.query(sql, (err, data) => {
+    if (err) {
+      throw new Error(err);
+    } else {
+      console.log('Batch insertion successful');
+    }
+  })
+});
+
 module.exports = router;
 
