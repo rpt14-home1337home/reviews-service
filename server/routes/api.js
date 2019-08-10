@@ -46,6 +46,19 @@ router.get('/reviews/:id', (req, res, next) => {
   });
 });
 
+// Get reviews by Item ID
+router.get('/item/:id/reviews', (req, res, next) => {
+  console.log('router.get called')
+  let sql = `SELECT * FROM reviews WHERE referenceItem = ${req.params.id};`;
+  connection.query(sql, (err, data)=> {
+    if (err) {
+      throw new Error(err);
+    } else {
+      res.send(data);
+    }
+  });
+});
+
 // Post a new review
 router.post('/reviews/single', (req, res, next) => {
   console.log(req.body);
