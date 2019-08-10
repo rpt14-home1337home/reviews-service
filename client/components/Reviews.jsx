@@ -12,6 +12,7 @@ class Reviews extends React.Component {
       allReviews: [],
       isToggled: false
     }
+
   }
 
   getReviews(cb) {
@@ -32,7 +33,7 @@ class Reviews extends React.Component {
     this.getReviews( (reviews) => {
       this.setState({
         allReviews: reviews.sort(function(a,b) {
-          if (a.numDaysAgo > b.numDaysAgo) {
+          if (a.updatedAt.getTime() > b.updatedAt.getTime()) {
             return 1
           } else {
             return -1
@@ -55,7 +56,7 @@ class Reviews extends React.Component {
                       id={review.id}
                       name={review.name}
                       avatar={review.avatar}
-                      reviewAge={review.numDaysAgo}
+                      reviewAge={this.props.dateDifference(Date.now(), review.updatedAt)}
                       content={review.content}
                       allReviews={this.state.allReviews}
                       seeAllReviewsMode={false}
