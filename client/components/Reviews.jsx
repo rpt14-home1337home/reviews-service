@@ -33,10 +33,10 @@ class Reviews extends React.Component {
     this.getReviews( (reviews) => {
       this.setState({
         allReviews: reviews.sort(function(a,b) {
-          if (a.updatedAt.getTime() > b.updatedAt.getTime()) {
-            return 1
-          } else {
+          if (Date.parse(a.updatedAt) > Date.parse(b.updatedAt)) {
             return -1
+          } else {
+            return 1
           }
         })
       })
@@ -56,7 +56,7 @@ class Reviews extends React.Component {
                       id={review.id}
                       name={review.name}
                       avatar={review.avatar}
-                      reviewAge={this.props.dateDifference(Date.now(), review.updatedAt)}
+                      reviewAge={this.props.dateDifference(Date.now(), Date.parse((review.updatedAt)))}
                       content={review.content}
                       allReviews={this.state.allReviews}
                       seeAllReviewsMode={false}
