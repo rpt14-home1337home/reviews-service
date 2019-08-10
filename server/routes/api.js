@@ -74,7 +74,7 @@ router.post('/reviews/batch', (req, res, next) => {
 });
 
 // Delete Review by ID
-router.get('/reviews/:id', (req, res, next) => {
+router.delete('/reviews/:id', (req, res, next) => {
   console.log('router.get called')
   let sql = `DELETE FROM reviews WHERE id=${req.params.id}`;
   connection.query(sql, (err, data)=> {
@@ -83,8 +83,8 @@ router.get('/reviews/:id', (req, res, next) => {
     } else {
       res.send(data);
     }
-  })
-})
+  });
+});
 
 module.exports = router;
 
