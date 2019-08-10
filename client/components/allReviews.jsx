@@ -87,7 +87,7 @@ class AllReviewsLightBox extends React.Component {
                       id={review.id}
                       name={review.name}
                       avatar={review.avatar}
-                      reviewAge={review.numDaysAgo}
+                      reviewAge={this.props.dateDifference(Date.now(), Date.parse(review.updatedAt))}
                       content={review.content}
                       allReviews={this.state.allReviews}
                       seeAllReviewsMode={true} />
