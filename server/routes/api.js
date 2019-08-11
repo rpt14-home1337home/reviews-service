@@ -37,8 +37,8 @@ router.get('/reviews', (req, res, next) => {
 
 router.post('/reviews/single', (req, res, next) => {
   console.log(req.body);
-  let sql = `INSERT INTO reviews (name, avatar, numDaysAgo, content)
-    VALUES ("${req.body.name}", "${req.body.avatar}", ${req.body.numDaysAgo}, "${req.body.content}")`;
+  let sql = `INSERT INTO reviews (name, avatar, referenceItem, content)
+    VALUES ("${req.body.name}", "${req.body.avatar}", ${req.body.referenceItem}, "${req.body.content}")`;
 
   connection.query(sql, (err, data) => {
     if (err) {
@@ -51,7 +51,7 @@ router.post('/reviews/single', (req, res, next) => {
 });
 
 router.post('/reviews/batch', (req, res, next) => {
-  let sql = `INSERT INTO reviews (name, avatar, numDaysAgo, content)
+  let sql = `INSERT INTO reviews (name, avatar, referenceItem, content)
     VALUES `;
 
   if(!Array.isArray(req.body)) {
@@ -59,7 +59,7 @@ router.post('/reviews/batch', (req, res, next) => {
   } else {
     req.body.forEach((review, index) => {
       sql += index > 0 ? ',' : '';
-      sql += `("${review.name}", "${review.avatar}", ${review.numDaysAgo}, "${review.content}")`;
+      sql += `("${review.name}", "${review.avatar}", ${review.referenceItem}, "${review.content}")`;
     });
   }
 
