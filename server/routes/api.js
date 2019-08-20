@@ -17,7 +17,7 @@ connection.connect((err)=> {
   } else {
     console.log('mysqlConnecttion successful')
   }
-})
+});
 
 
 // GET ALL REVIEWS
@@ -98,6 +98,25 @@ router.post('/reviews/batch', (req, res, next) => {
     }
   })
 });
+
+// Update review via ID
+router.put('/reviews/:id', (req, res, next) => {
+  console.log('router.get called')
+  let sql = 'UPDATE reviews SET ';
+  Object.keys(req.body).forEach((key, index) => {
+    sql += index > 0 ? ',' : '';
+    let value = typeof req.body[key] === 'number' ? req.body[key] : `"${req.body[key]}"`;
+    sql += `${key}=${value}`;
+  });
+  sql += ` WHERE id=${req.params.id};`;
+  connection.query(sql, (err, data)=> {
+    if (err) {
+      throw new Error(err);
+    } else {
+      res.send(data);
+    }
+  })
+})
 
 module.exports = router;
 
