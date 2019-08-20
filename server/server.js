@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./routes/api.js');
 const path = require('path');
+const morgan = require('morgan');
 
 // create express server
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.static('public'));
 app.use(function(err, req, res, next) {
   res.status(422).send({error: err.message})
 });
+app.use(morgan('tiny'));
 
 //initialize routes mw
 app.use(routes);

@@ -64,7 +64,7 @@ class Reviews extends React.Component {
           }
         </div>
         <div>
-          <AllReviewsLightBox allReviews={this.state.allReviews} showingAll={this.state.showingAll} />
+          <AllReviewsLightBox dateDifference={this.props.dateDifference} allReviews={this.state.allReviews} showingAll={this.state.showingAll} />
         </div>
       </div>
     )

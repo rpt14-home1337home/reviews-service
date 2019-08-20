@@ -24,7 +24,7 @@ coverage
 build/
 dist/
 
-/public/bundle.js
+bundle.js
 config.js
 /database/seed.sql
 .env
