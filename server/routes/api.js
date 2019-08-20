@@ -30,11 +30,36 @@ router.get('/reviews', (req, res, next) => {
     } else {
       res.send(data);
     }
-  })
+  });
+});
+
+// Get a single review by ID
+router.get('/reviews/:id', (req, res, next) => {
+  console.log('router.get called')
+  let sql = `SELECT * FROM reviews WHERE id = ${req.params.id};`;
+  connection.query(sql, (err, data)=> {
+    if (err) {
+      throw new Error(err);
+    } else {
+      res.send(data);
+    }
+  });
+});
+
+// Get reviews by Item ID
+router.get('/item/:id/reviews', (req, res, next) => {
+  console.log('router.get called')
+  let sql = `SELECT * FROM reviews WHERE referenceItem = ${req.params.id};`;
+  connection.query(sql, (err, data)=> {
+    if (err) {
+      throw new Error(err);
+    } else {
+      res.send(data);
+    }
+  });
 });
 
 // Post a new review
-
 router.post('/reviews/single', (req, res, next) => {
   console.log(req.body);
   let sql = `INSERT INTO reviews (name, avatar, numDaysAgo, content)
@@ -50,6 +75,7 @@ router.post('/reviews/single', (req, res, next) => {
   })
 });
 
+// Batch post reviews
 router.post('/reviews/batch', (req, res, next) => {
   let sql = `INSERT INTO reviews (name, avatar, numDaysAgo, content)
     VALUES `;
