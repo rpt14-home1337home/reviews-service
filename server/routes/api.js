@@ -17,7 +17,7 @@ connection.connect((err)=> {
   } else {
     console.log('mysqlConnecttion successful')
   }
-})
+});
 
 
 // GET ALL REVIEWS
@@ -30,11 +30,36 @@ router.get('/reviews', (req, res, next) => {
     } else {
       res.send(data);
     }
-  })
-})
+  });
+});
+
+// Get a single review by ID
+router.get('/reviews/:id', (req, res, next) => {
+  console.log('router.get called')
+  let sql = `SELECT * FROM reviews WHERE id = ${req.params.id};`;
+  connection.query(sql, (err, data)=> {
+    if (err) {
+      throw new Error(err);
+    } else {
+      res.send(data);
+    }
+  });
+});
+
+// Get reviews by Item ID
+router.get('/item/:id/reviews', (req, res, next) => {
+  console.log('router.get called')
+  let sql = `SELECT * FROM reviews WHERE referenceItem = ${req.params.id};`;
+  connection.query(sql, (err, data)=> {
+    if (err) {
+      throw new Error(err);
+    } else {
+      res.send(data);
+    }
+  });
+});
 
 // Post a new review
-
 router.post('/reviews/single', (req, res, next) => {
   console.log(req.body);
   let sql = `INSERT INTO reviews (name, avatar, referenceItem, content)
@@ -50,6 +75,7 @@ router.post('/reviews/single', (req, res, next) => {
   })
 });
 
+// Batch post reviews
 router.post('/reviews/batch', (req, res, next) => {
   let sql = `INSERT INTO reviews (name, avatar, referenceItem, content)
     VALUES `;
@@ -71,6 +97,39 @@ router.post('/reviews/batch', (req, res, next) => {
       res.end('Batch insertion successful');
     }
   })
+});
+
+// Delete Review by ID
+router.delete('/reviews/:id', (req, res, next) => {
+  console.log('router.get called')
+  let sql = `DELETE FROM reviews WHERE id=${req.params.id}`;
+  connection.query(sql, (err, data)=> {
+    if (err) {
+      throw new Error(err);
+    } else {
+      res.send(data);
+    }
+  });
+});
+
+// Update review via ID
+router.put('/reviews/:id', (req, res, next) => {
+  console.log('router.get called')
+  let sql = 'UPDATE reviews SET ';
+  Object.keys(req.body).forEach((key, index) => {
+    sql += index > 0 ? ',' : '';
+    let value = typeof req.body[key] === 'number' ? req.body[key] : `"${req.body[key]}"`;
+    sql += `${key}=${value}`;
+  });
+  sql += ` WHERE id=${req.params.id};`;
+  
+  connection.query(sql, (err, data)=> {
+    if (err) {
+      throw new Error(err);
+    } else {
+      res.send(data);
+    }
+  });
 });
 
 module.exports = router;
