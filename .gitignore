@@ -35,3 +35,6 @@ package-lock.json
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+/database/mysql_seed.sql
+/database/cassandra_seed.cql
