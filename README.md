@@ -63,7 +63,7 @@ To mimic the review microservice as seen at AirBNB.
 
 **UPDATE**
 
-- /reviews/:id - modify existing review with any number of valid key/value pairs within a JSON object
+- /reviews/:id - modify existing review with any number of valid key/value pairs within a JSON object, and automatically updates the `updatedAt` field to the current date/time
 
 ### Database
 **Initialization**
