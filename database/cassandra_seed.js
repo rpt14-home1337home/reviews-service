@@ -2,28 +2,6 @@ const faker = require('faker');
 const fs = require('fs');
 const promise = require('bluebird');
 const output = __dirname + '/cassandra_seed.csv';
-const fsAsync = promise.promisifyAll(fs);
-const exec = require('child_process').exec;
-// const createCSVWriter = require('csv-writer').createObjectCsvWriter;
-// const csvWriter =  createCSVWriter({
-//   path: output,
-//   // id: i,
-//   // name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-//   // content: `${faker.lorem.paragraphs(randomIntFromOne(3))}`,
-//   // referenceItem: randomIntFromOne(MAX_ITEMS),
-//   // avatar: `${faker.image.people(50, 50)}`,
-//   // createdAt: `${createdAt}`,
-//   // updatedAt: `${createdAt}`
-//   header: [
-//     {id: 'id', title: 'ID'},
-//     {id: 'name', title: 'Name'},
-//     {id: 'content', title: 'Content'},
-//     {id: 'referenceItem', title: 'ReferenceItem'},
-//     {id: 'avatar', title: 'Avatar'},
-//     {id: 'createdAt', title: 'CreatedAt'},
-//     {id: 'updatedAt', title: 'UpdatedAt'}
-//   ]
-// })
 
 const MAX_REVS = 50000000;
 const MAX_ITEMS = 10000000;
@@ -81,17 +59,6 @@ fs.writeFileAsync(output, 'id,name,content,referenceitem,avatar,createdat,update
   .then((start) => {
     console.log((Date.now() - start)/1000, 'seconds')
   })
-  // .then(() => {
-  //   console.log('Data gen finished @:', Date.now());
-  //   console.log('Begin cassandra insertion');
-  //   exec(`cqlsh < ${__dirname}/cassandra_seed.cql`, (stdout, stderr) => {
-  //     if (stderr) {
-  //       console.log(stderr);
-  //     } else {
-  //       console.log('Insertion finished @:', Date.now());
-  //     }
-  //   });
-  // })
   .catch(err => {
     console.log(err);
   });
