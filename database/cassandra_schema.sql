@@ -6,5 +6,5 @@ CREATE TABLE bnb.reviews (
   createdAt text,
   referenceItem int,
   content text,
-  PRIMARY KEY(id, referenceItem, name)
+  PRIMARY KEY(referenceItem, id, name)
 );
