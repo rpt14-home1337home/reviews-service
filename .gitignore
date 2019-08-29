@@ -38,3 +38,5 @@ package-lock.json
 
 /database/mysql_seed.sql
 /database/cassandra_seed.cql
+*.csv
+/database/mysql_items_seed.sql
