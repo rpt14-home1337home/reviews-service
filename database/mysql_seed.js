@@ -4,7 +4,6 @@ const promise = require('bluebird');
 const output = __dirname + '/mysql_seed.sql';
 const fsAsync = promise.promisifyAll(fs);
 const exec = require('child_process').exec;
-// const config = require('../config');
 
 const MAX_REVS = 50000000;
 const MAX_ITEMS = 10000000;
