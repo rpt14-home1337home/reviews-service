@@ -23,15 +23,10 @@ connection.connect((err)=> {
 
 // GET ALL REVIEWS
 router.get('/reviews', (req, res, next) => {
-  console.log('router.get called')
-  let sql = 'SELECT * FROM reviews;';
-  connection.query(sql, (err, data)=> {
-    if (err) {
-      throw new Error(err);
-    } else {
-      res.send(data);
-    }
-  });
+  db.getAllReviews()
+    .then(data => {
+      res.end(JSON.stringify(data));
+    })
 });
 
 // Get a single review by ID
