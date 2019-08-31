@@ -9,18 +9,29 @@ client.connect(err => {
   if(err) throw new Error(err);
 });
 
-const getAllByItemID = itemID => {
-  const query =  `SELECT * FROM bnb.reviews WHERE referenceitem = ${itemID};`;
+const getAllReviews = () => {
+  const query = 'SELECT * FROM bnb.reviews;';
   return client.execute(query)
     .then(data => {
-      console.log(data);
       return data.rows;
     })
     .catch(err => {
       throw new Error(err);
+    });
+}
+
+const getAllByItemID = itemID => {
+  const query =  `SELECT * FROM bnb.reviews WHERE referenceitem = ${itemID};`;
+  return client.execute(query)
+    .then(data => {
+      return data.rows;
     })
+    .catch(err => {
+      throw new Error(err);
+    });
 }
 
 module.exports = {
-  getAllByItemID: getAllByItemID
+  getAllByItemID: getAllByItemID,
+  getAllReviews: getAllReviews
 }
