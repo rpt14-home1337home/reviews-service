@@ -51,18 +51,9 @@ router.get('/item/:id/reviews', (req, res, next) => {
 
 // Post a new review
 router.post('/reviews/single', (req, res, next) => {
-  console.log(req.body);
-  let sql = `INSERT INTO reviews (name, avatar, referenceItem, content)
-    VALUES ("${req.body.name}", "${req.body.avatar}", ${req.body.referenceItem}, "${req.body.content}")`;
-
-  connection.query(sql, (err, data) => {
-    if (err) {
-      throw new Error(err);
-    } else {
-      console.log('Single insertion successful');
-      res.end('Single insertion successful');
-    }
-  })
+  db.addReview(req.body).then(() => {
+      res.end('Review created');
+    });
 });
 
 // Batch post reviews
