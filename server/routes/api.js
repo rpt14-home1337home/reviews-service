@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');  // mysql -u root -p < database/schema.sql
+const db = require('../../database/index.js');
 
 // CONNECT TO MYSQL WITH CREDENTIALS
 var connection = mysql.createConnection({
@@ -48,15 +49,9 @@ router.get('/reviews/:id', (req, res, next) => {
 
 // Get reviews by Item ID
 router.get('/item/:id/reviews', (req, res, next) => {
-  console.log('router.get called')
-  let sql = `SELECT * FROM reviews WHERE referenceItem = ${req.params.id};`;
-  connection.query(sql, (err, data)=> {
-    if (err) {
-      throw new Error(err);
-    } else {
-      res.send(data);
-    }
-  });
+  db.getAllByItemID(req.params.id).then(data => {
+      res.end(JSON.stringify(data));
+    });
 });
 
 // Post a new review
@@ -122,7 +117,7 @@ router.put('/reviews/:id', (req, res, next) => {
     sql += `${key}=${value}`;
   });
   sql += ` WHERE id=${req.params.id};`;
-  
+
   connection.query(sql, (err, data)=> {
     if (err) {
       throw new Error(err);
