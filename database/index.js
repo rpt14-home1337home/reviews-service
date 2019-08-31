@@ -1,3 +1,5 @@
+const uuid = require('uuid/v4');
+
 const cassandra = require('cassandra-driver');
 const client = new cassandra.Client({
   contactPoints: ['127.0.0.1'],
@@ -29,6 +31,15 @@ const getAllByItemID = itemID => {
     .catch(err => {
       throw new Error(err);
     });
+}
+
+const addReview = reqBody => {
+  const { referenceItem, name, avatar, content } = reqBody;
+  const query = `
+    INSERT INTO bnb.reviews (id, name, referenceitem, avatar, content, createdat, updatedat)
+      VALUES (${uuid()}, ${name}, ${referenceItem}, ${avatar}, ${content}, ${Date.now()}, ${Date.now()})
+  `;
+
 }
 
 module.exports = {
