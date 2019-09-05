@@ -64,22 +64,9 @@ router.delete('/item/:itemNum/reviews/:id', (req, res, next) => {
 });
 
 // Update review via ID
-router.put('/reviews/:id', (req, res, next) => {
-  console.log('router.get called')
-  let sql = 'UPDATE reviews SET ';
-  Object.keys(req.body).forEach((key, index) => {
-    sql += index > 0 ? ',' : '';
-    let value = typeof req.body[key] === 'number' ? req.body[key] : `"${req.body[key]}"`;
-    sql += `${key}=${value}`;
-  });
-  sql += ` WHERE id=${req.params.id};`;
-
-  connection.query(sql, (err, data)=> {
-    if (err) {
-      throw new Error(err);
-    } else {
-      res.send(data);
-    }
+router.put('/item/:itemNum/reviews/:id', (req, res, next) => {
+  db.updateReview(req.params.itemNum, req.params.id, req.body).then(data => {
+    res.end(data);
   });
 });
 
