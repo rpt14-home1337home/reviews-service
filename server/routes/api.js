@@ -51,21 +51,15 @@ router.get('/item/:id/reviews', (req, res, next) => {
 
 // Post a new review
 router.post('/reviews/single', (req, res, next) => {
-  db.addReview(req.body).then(() => {
-      res.end('Review created');
+  db.addReview(req.body).then(data => {
+      res.end(data);
     });
 });
 
 // Delete Review by ID
-router.delete('/reviews/:id', (req, res, next) => {
-  console.log('router.get called')
-  let sql = `DELETE FROM reviews WHERE id=${req.params.id}`;
-  connection.query(sql, (err, data)=> {
-    if (err) {
-      throw new Error(err);
-    } else {
-      res.send(data);
-    }
+router.delete('/item/:itemNum/reviews/:id', (req, res, next) => {
+  db.deleteReview(req.params.itemNum, req.params.id).then(data => {
+    res.end(data);
   });
 });
 
