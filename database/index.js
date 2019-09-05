@@ -49,8 +49,20 @@ const addReview = reqBody => {
     });
 }
 
+const deleteReview = (refItem, id) => {
+  const query = `DELETE FROM bnb.reviews WHERE referenceitem=${refItem} AND id=${id};`;
+  return client.execute(query)
+    .then(() => {
+      return `Review ${id} deleted`;
+    })
+    .catch(err => {
+      throw new Error(err);
+    });
+}
+
 module.exports = {
   getAllByItemID: getAllByItemID,
   getAllReviews: getAllReviews,
-  addReview: addReview
+  addReview: addReview,
+  deleteReview: deleteReview
 }
