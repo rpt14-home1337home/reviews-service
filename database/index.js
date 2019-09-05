@@ -60,9 +60,29 @@ const deleteReview = (refItem, id) => {
     });
 }
 
+const updateReview = (refItem, id, body) => {
+  body.updatedat = uuid();
+  let query = `UPDATE bnb.reviews SET `
+  Object.keys(body).forEach((key, index) => {
+    query += index > 0 ? ',' : '';
+    let value = key === 'updatedAt' ? body[key] : `'${body[key]}'`;
+    if(key !== 'referenceitem' && key !== 'id') query += `${key}=${value}`;
+  });
+  console.log(query);
+  query += ` WHERE referenceitem=${refItem} AND id=${id};`;
+  return client.execute(query)
+    .then(() => {
+      return `Review ${id} updated`;
+    })
+    .catch(err => {
+      throw new Error(err);
+    });
+}
+
 module.exports = {
   getAllByItemID: getAllByItemID,
   getAllReviews: getAllReviews,
   addReview: addReview,
-  deleteReview: deleteReview
+  deleteReview: deleteReview,
+  updateReview: updateReview
 }
