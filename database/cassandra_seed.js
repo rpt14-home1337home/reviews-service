@@ -1,6 +1,7 @@
 const faker = require('faker');
-const fs = require('fs');
-const promise = require('bluebird');
+const Promise = require('bluebird');
+const fs = Promise.promisifyAll(require('fs'));
+const uuid = require('uuid/v1');
 const output = __dirname + '/cassandra_seed.csv';
 
 const MAX_REVS = 50000000;
@@ -30,24 +31,24 @@ let createRandomDate = () => {
   return `${date.year}-${date.month}-${date.day} ${date.hour}:${date.min}:${date.sec}`
 }
 
-fs.writeFileAsync(output, 'id,name,content,referenceitem,avatar,createdat,updatedat')
+fs.writeFileAsync(output, 'id,name,content,referenceitem,avatar,updatedat')
   .then(() => {
     let start = Date.now();
     // create 50,000,000 reviews
     let query = '';
     for (let i = 1; i <= MAX_REVS; i++) {
-      let createdAt = createRandomDate();
+      let reviewDate = new Date(createRandomDate());
+      let dateUUID = uuid({ msecs: reviewDate.getTime() })
       let review = {
-        id: i,
+        id: dateUUID,
         name: `${faker.name.firstName()} ${faker.name.lastName()}`,
         content: `${faker.lorem.sentences(randomIntFromOne(3))}`,
         referenceItem: randomIntFromOne(MAX_ITEMS),
         avatar: `${faker.image.people(50, 50)}`,
-        createdAt: `${createdAt}`,
-        updatedAt: `${createdAt}`
+        updatedAt: dateUUID
       };
 
-      query += `${review.id},${review.name},${review.content},${review.referenceItem},${review.avatar},${review.createdAt},${review.updatedAt}` + '\n';
+      query += `${review.id},${review.name},${review.content},${review.referenceItem},${review.avatar},${review.updatedAt}` + '\n';
       if(i % 100000 === 0) {
         fs.appendFileSync(output, query);
         query = '';
