@@ -1,4 +1,4 @@
-const uuid = require('uuid/v4');
+const uuid = require('uuid/v1');
 
 const cassandra = require('cassandra-driver');
 const client = new cassandra.Client({
@@ -35,14 +35,22 @@ const getAllByItemID = itemID => {
 
 const addReview = reqBody => {
   const { referenceItem, name, avatar, content } = reqBody;
+  const initialUUID = uuid();
   const query = `
-    INSERT INTO bnb.reviews (id, name, referenceitem, avatar, content, createdat, updatedat)
-      VALUES (${uuid()}, ${name}, ${referenceItem}, ${avatar}, ${content}, ${Date.now()}, ${Date.now()})
+    INSERT INTO bnb.reviews (id, name, referenceitem, avatar, content, updatedat)
+      VALUES (${initialUUID}, '${name}', ${referenceItem}, '${avatar}', '${content}', ${initialUUID})
   `;
-
+  return client.execute(query)
+    .then(() => {
+      return 'Insertion successful';
+    })
+    .catch(err => {
+      throw new Error(err);
+    });
 }
 
 module.exports = {
   getAllByItemID: getAllByItemID,
-  getAllReviews: getAllReviews
+  getAllReviews: getAllReviews,
+  addReview: addReview
 }
