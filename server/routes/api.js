@@ -56,30 +56,6 @@ router.post('/reviews/single', (req, res, next) => {
     });
 });
 
-// Batch post reviews
-router.post('/reviews/batch', (req, res, next) => {
-  let sql = `INSERT INTO reviews (name, avatar, referenceItem, content)
-    VALUES `;
-
-  if(!Array.isArray(req.body)) {
-    throw new Error('Data is not an array');
-  } else {
-    req.body.forEach((review, index) => {
-      sql += index > 0 ? ',' : '';
-      sql += `("${review.name}", "${review.avatar}", ${review.referenceItem}, "${review.content}")`;
-    });
-  }
-
-  connection.query(sql, (err, data) => {
-    if (err) {
-      throw new Error(err);
-    } else {
-      console.log('Batch insertion successful');
-      res.end('Batch insertion successful');
-    }
-  })
-});
-
 // Delete Review by ID
 router.delete('/reviews/:id', (req, res, next) => {
   console.log('router.get called')
