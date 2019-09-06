@@ -38,7 +38,7 @@ const addReview = reqBody => {
   const initialUUID = uuid();
   const query = `
     INSERT INTO bnb.reviews (id, name, referenceitem, avatar, content, updatedat)
-      VALUES (${initialUUID}, '${name}', ${referenceItem}, '${avatar}', '${content}', ${initialUUID})
+      VALUES (${initialUUID}, '${name}', ${referenceItem}, '${avatar}', '${content}', ${initialUUID});
   `;
   return client.execute(query)
     .then(() => {
