@@ -66,10 +66,15 @@ const updateReview = (refItem, id, body) => {
   Object.keys(body).forEach((key, index) => {
     query += index > 0 ? ',' : '';
     let value = key === 'updatedAt' ? body[key] : `'${body[key]}'`;
-    if(key !== 'referenceitem' && key !== 'id') query += `${key}=${value}`;
+    if(key !== 'referenceitem' && key !== 'id') {
+      query += `${key}=${value}`;
+    }
   });
   console.log(query);
   query += ` WHERE referenceitem=${refItem} AND id=${id};`;
+  let regex = /'[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}'/;
+  query = query.replace(regex, body.updatedat);
+
   return client.execute(query)
     .then(() => {
       return `Review ${id} updated`;
