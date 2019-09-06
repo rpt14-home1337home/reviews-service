@@ -1,9 +1,8 @@
 CREATE TABLE bnb.reviews (
-  id uuid,
+  id timeuuid,
   name text,
   avatar text,
-  createdAt text,
-  updatedAt text,
+  updatedAt timeuuid,
   referenceItem int,
   content text,
   PRIMARY KEY(referenceItem, id)
