@@ -1,25 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('mysql');  // mysql -u root -p < database/schema.sql
 const db = require('../../database/index.js');
-
-// CONNECT TO MYSQL WITH CREDENTIALS
-var connection = mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
-    password: '',
-    database : 'bnb'
-  });
-
-// CHECK CONNECTION
-connection.connect((err)=> {
-  if (err) {
-    throw new Error(err);
-  } else {
-    console.log('mysqlConnecttion successful')
-  }
-});
-
 
 // GET ALL REVIEWS
 router.get('/reviews', (req, res, next) => {
