@@ -12,24 +12,18 @@ client.connect(err => {
 });
 
 const getAllReviews = () => {
-  const query = 'SELECT * FROM bnb.reviews;';
+  const query = 'SELECT id, dateOf(id) AS createdat, name, referenceitem, avatar, content, dateOf(updatedat) AS updatedat FROM bnb.reviews;';
   return client.execute(query)
     .then(data => {
       return data.rows;
-    })
-    .catch(err => {
-      throw new Error(err);
     });
 }
 
 const getAllByItemID = itemID => {
-  const query =  `SELECT * FROM bnb.reviews WHERE referenceitem = ${itemID};`;
+  const query =  `SELECT id, dateOf(id) AS createdat, name, referenceitem, avatar, content, dateOf(updatedat) AS updatedat FROM bnb.reviews WHERE referenceitem = ${itemID};`;
   return client.execute(query)
     .then(data => {
       return data.rows;
-    })
-    .catch(err => {
-      throw new Error(err);
     });
 }
 
@@ -43,9 +37,6 @@ const addReview = reqBody => {
   return client.execute(query)
     .then(() => {
       return 'Insertion successful';
-    })
-    .catch(err => {
-      throw new Error(err);
     });
 }
 
@@ -54,9 +45,6 @@ const deleteReview = (refItem, id) => {
   return client.execute(query)
     .then(() => {
       return `Review ${id} deleted`;
-    })
-    .catch(err => {
-      throw new Error(err);
     });
 }
 
@@ -78,9 +66,6 @@ const updateReview = (refItem, id, body) => {
   return client.execute(query)
     .then(() => {
       return `Review ${id} updated`;
-    })
-    .catch(err => {
-      throw new Error(err);
     });
 }
 
