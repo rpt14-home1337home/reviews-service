@@ -1,36 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('mysql');  // mysql -u root -p < database/schema.sql
-
-// CONNECT TO MYSQL WITH CREDENTIALS
-var connection = mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
-    password: '',
-    database : 'bnb'
-  });
-
-// CHECK CONNECTION
-connection.connect((err)=> {
-  if (err) {
-    throw new Error(err);
-  } else {
-    console.log('mysqlConnecttion successful')
-  }
-});
-
+const db = require('../../database/index.js');
 
 // GET ALL REVIEWS
 router.get('/reviews', (req, res, next) => {
-  console.log('router.get called')
-  let sql = 'SELECT * FROM reviews;';
-  connection.query(sql, (err, data)=> {
-    if (err) {
-      throw new Error(err);
-    } else {
-      res.send(data);
-    }
-  });
+  db.getAllReviews()
+    .then(data => {
+      res.end(JSON.stringify(data));
+    })
 });
 
 // Get a single review by ID
@@ -48,87 +25,29 @@ router.get('/reviews/:id', (req, res, next) => {
 
 // Get reviews by Item ID
 router.get('/item/:id/reviews', (req, res, next) => {
-  console.log('router.get called')
-  let sql = `SELECT * FROM reviews WHERE referenceItem = ${req.params.id};`;
-  connection.query(sql, (err, data)=> {
-    if (err) {
-      throw new Error(err);
-    } else {
-      res.send(data);
-    }
-  });
+  db.getAllByItemID(req.params.id).then(data => {
+      res.end(JSON.stringify(data));
+    });
 });
 
 // Post a new review
 router.post('/reviews/single', (req, res, next) => {
-  console.log(req.body);
-  let sql = `INSERT INTO reviews (name, avatar, referenceItem, content)
-    VALUES ("${req.body.name}", "${req.body.avatar}", ${req.body.referenceItem}, "${req.body.content}")`;
-
-  connection.query(sql, (err, data) => {
-    if (err) {
-      throw new Error(err);
-    } else {
-      console.log('Single insertion successful');
-      res.end('Single insertion successful');
-    }
-  })
-});
-
-// Batch post reviews
-router.post('/reviews/batch', (req, res, next) => {
-  let sql = `INSERT INTO reviews (name, avatar, referenceItem, content)
-    VALUES `;
-
-  if(!Array.isArray(req.body)) {
-    throw new Error('Data is not an array');
-  } else {
-    req.body.forEach((review, index) => {
-      sql += index > 0 ? ',' : '';
-      sql += `("${review.name}", "${review.avatar}", ${review.referenceItem}, "${review.content}")`;
+  db.addReview(req.body).then(data => {
+      res.end(data);
     });
-  }
-
-  connection.query(sql, (err, data) => {
-    if (err) {
-      throw new Error(err);
-    } else {
-      console.log('Batch insertion successful');
-      res.end('Batch insertion successful');
-    }
-  })
 });
 
 // Delete Review by ID
-router.delete('/reviews/:id', (req, res, next) => {
-  console.log('router.get called')
-  let sql = `DELETE FROM reviews WHERE id=${req.params.id}`;
-  connection.query(sql, (err, data)=> {
-    if (err) {
-      throw new Error(err);
-    } else {
-      res.send(data);
-    }
+router.delete('/item/:itemNum/reviews/:id', (req, res, next) => {
+  db.deleteReview(req.params.itemNum, req.params.id).then(data => {
+    res.end(data);
   });
 });
 
 // Update review via ID
-router.put('/reviews/:id', (req, res, next) => {
-  console.log('router.get called')
-  let sql = 'UPDATE reviews SET ';
-  Object.keys(req.body).forEach((key, index) => {
-    sql += index > 0 ? ',' : '';
-    let value = typeof req.body[key] === 'number' ? req.body[key] : `"${req.body[key]}"`;
-    sql += `${key}=${value}`;
-  });
-  sql += ` WHERE id=${req.params.id};`;
-  
-  connection.query(sql, (err, data)=> {
-    if (err) {
-      throw new Error(err);
-    } else {
-      res.send(data);
-    }
+router.put('/item/:itemNum/reviews/:id', (req, res, next) => {
+  db.updateReview(req.params.itemNum, req.params.id, req.body).then(data => {
+    res.end(data);
   });
 });
 
