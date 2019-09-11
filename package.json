@@ -9,7 +9,10 @@
     "build": "webpack -d --watch"
   },
   "jest": {
-    "testPathIgnorePatterns": ["/node_modules/", "/client/"]
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/client/"
+    ]
   },
   "author": "me",
   "license": "ISC",

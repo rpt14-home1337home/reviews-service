@@ -1,30 +1,55 @@
 require('newrelic');
+const cluster = require('cluster');
+
 const express = require('express');
+
 const bodyParser = require('body-parser');
 const routes = require('./routes/api.js');
 const path = require('path');
 const morgan = require('morgan');
 
-// create express server
-const app = express();
+if(cluster.isMaster) {
+  console.log(`Master ${process.pid} running`);
+  const cpuCount = require('os').cpus().length;
 
-// initialize middleware
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '../public')));
-app.use('/:id', express.static(path.join(__dirname, '../public')));
+  for(let i = 0; i < cpuCount; i++) {
+    cluster.fork();
+  }
 
-app.use(function(err, req, res, next) {
-  res.status(422).send({error: err.message})
-});
-app.use(morgan('tiny'));
+  cluster.on('online', worker => {
+    console.log(`Worker ${worker.process.pid} online`);
+  });
 
-//initialize routes mw
-app.use(routes);
+  cluster.on('exit', worker => {
+    console.log(`Worker ${worker.process.pid} died`);
+    cluster.fork();
+  });
 
-// listen
-app.listen(process.env.port || 3000, () => {
-  console.log('listening for requests on port 3000');
-});
+} else {
+  // create express server
+  const app = express();
+
+  // initialize middleware
+  app.use(bodyParser.json());
+  app.use(express.static(path.join(__dirname, '../public')));
+  app.use('/:id', express.static(path.join(__dirname, '../public')));
+
+  app.use(function(err, req, res, next) {
+    res.status(422).send({error: err.message})
+  });
+  app.use(morgan('tiny'));
+
+  //initialize routes mw
+  app.use(routes);
+
+  // listen
+  const port = process.env.port || 3000;
+  app.listen(port, () => {
+    console.log(`Worker ${cluster.worker.id} running on port ${port}`);
+  });
+
+}
+
 
 //LOAD DATA LOCAL INFILE 'MOCK_DATA.csv' INTO TABLE bnb.reviews;
 
