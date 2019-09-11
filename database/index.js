@@ -2,7 +2,7 @@ const uuid = require('uuid/v1');
 
 const cassandra = require('cassandra-driver');
 const client = new cassandra.Client({
-  contactPoints: ['127.0.0.1'],
+  contactPoints: [process.env.DB_IP || '127.0.0.1'],
   localDataCenter: 'datacenter1',
   keyspace: 'bnb'
 });
