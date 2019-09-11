@@ -4,16 +4,23 @@
   "description": "front end capstone",
   "main": "server/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "nodemon server.js",
     "build": "webpack -d --watch"
+  },
+  "jest": {
+    "testPathIgnorePatterns": ["/node_modules/", "/client/"]
   },
   "author": "me",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.5.5",
     "body-parser": "^1.19.0",
     "cassandra-driver": "^4.1.0",
+    "csv-writer": "^1.5.0",
     "express": "^4.16.4",
+    "jest": "^24.9.0",
+    "faker": "^4.1.0",
     "jquery": "^3.4.1",
     "morgan": "^1.9.1",
     "mysql": "^2.17.1",
