@@ -10,37 +10,65 @@ class Reviews extends React.Component {
     super(props);
     this.state = {
       allReviews: [],
-      isToggled: false
+      isToggled: false,
+      referenceItem: null
     }
 
+    if (this.props.referenceItem.length > 1) {
+      let refItem = this.props.referenceItem;
+      this.state.referenceItem = Number(refItem.slice(1, refItem.length - 1));
+    }
+
+    this.parseReviews = this.parseReviews.bind(this);
   }
 
-  getReviews(cb) {
+  getReviewsById(cb) {
     $.ajax({
-      url: '/reviews',
+      url:`/item/${this.state.referenceItem}/reviews`,
       type: 'GET',
       dataType: 'json',
-      success: (data) => {
-        cb(data)
+      success: data => {
+        cb(data);
       },
-      error: (err) => {
+      error: err => {
         throw new Error(err);
       }
     })
   }
 
-  componentDidMount() {
-    this.getReviews( (reviews) => {
-      this.setState({
-        allReviews: reviews.sort(function(a,b) {
-          if (Date.parse(a.updatedAt) > Date.parse(b.updatedAt)) {
-            return -1
-          } else {
-            return 1
-          }
-        })
+  getAllReviews(cb) {
+    $.ajax({
+      url: '/reviews',
+      type: 'GET',
+      dataType: 'json',
+      success: (data) => {
+        cb(data);
+      },
+      error: (err) => {
+        console.log(err);
+        throw new Error(err);
+      }
+    })
+  }
+
+  parseReviews(reviews) {
+    this.setState({
+      allReviews: reviews.sort(function(a,b) {
+        if (Date.parse(a.updatedat) > Date.parse(b.updatedat)) {
+          return -1
+        } else {
+          return 1
+        }
       })
     })
+  }
+
+  componentDidMount() {
+    if(this.state.referenceItem !== null) {
+      this.getReviewsById(this.parseReviews);
+    } else {
+      this.getAllReviews(this.parseReviews);
+    }
   }
 
   render() {
@@ -56,7 +84,7 @@ class Reviews extends React.Component {
                       id={review.id}
                       name={review.name}
                       avatar={review.avatar}
-                      reviewAge={this.props.dateDifference(Date.now(), Date.parse((review.updatedAt)))}
+                      reviewAge={this.props.dateDifference(Date.now(), Date.parse((review.updatedat)))}
                       content={review.content}
                       allReviews={this.state.allReviews}
                       seeAllReviewsMode={false}

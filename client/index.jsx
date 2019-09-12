@@ -10,4 +10,4 @@ let dateDifference = (date1, date2) => {
   return Math.floor(difference / 1000 / 60 / 60 / 24);
 }
 
-ReactDOM.render(<Reviews dateDifference={dateDifference}/>, document.getElementById('reviews'));
+ReactDOM.render(<Reviews referenceItem={window.location.pathname} dateDifference={dateDifference}/>, document.getElementById('reviews'));

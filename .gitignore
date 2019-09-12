@@ -35,5 +35,10 @@ package-lock.json
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
-database/cassandra_seed.csv
+
 newrelic.js
+
+/database/mysql_seed.sql
+/database/cassandra_seed.cql
+*.csv
+/database/mysql_items_seed.sql
