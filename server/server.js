@@ -1,3 +1,4 @@
+require('newrelic');
 const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./routes/api.js');
@@ -9,7 +10,9 @@ const app = express();
 
 // initialize middleware
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, '../public')));
+app.use('/:id', express.static(path.join(__dirname, '../public')));
+
 app.use(function(err, req, res, next) {
   res.status(422).send({error: err.message})
 });
